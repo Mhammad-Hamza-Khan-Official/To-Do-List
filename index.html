@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tasks</title>
+    <link rel="stylesheet" href="utilaty.css" />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <!-- Show popPop -->
+      <div class="pop-container absolute flex justify-center items-center">
+        <div class="pop-pop flex flex-col gap-5">
+          <h3 class="text-xl">Create new list</h3>
+          <input type="text" name="" id="pop-text" class="btn text-lg" placeholder="Enter a name">
+          <div class="pop-btn flex gap-4">
+            <button class="pop-btn text-base" id="cancle">Cancle</button>
+            <button id="done" class="pop-btn text-base">Done</button>
+          </div>
+        </div>
+      </div>
+    <!-- -----------------header -->
+    <header>
+      <nav class="flex w-full  justify-between">
+        <div class="contain flex">
+          <img src="./assets/icons/hamberger.svg" alt="" class="hamberger" id="hamberger"/>
+
+          <div class="logo flex gap-10">
+            <img src="./assets/icons/tick.svg" alt="" class="logo-img pr-1 img-7" />
+            <h1>Tasks</h1>
+          </div>
+        </div>
+        <div class="contain"><img src="./assets/icons/WhiteTick.svg" alt="" class="email-logo" /></div>
+      </nav>
+    </header>
+    <!-- ------------------------------------- -->
+    <main class="/">
+      
+      <!-- ----------------------------------  -->
+      <div class="container  flex  ">
+
+        <div class="sidebar-container self-start" id="sidebar">
+          <!-- -----------------------------SideBar -->
+          <div class="sidebar flex  flex-col gap-3  ">
+  
+            <button class="flex mt-5 gap-2 items-center justify-center">
+              <img src="./assets/icons/plus.svg" id="create" alt="" class="img-5"/>Create
+            </button>
+    
+            <div class="list-contain flex flex-col  gap-4 ">
+              <div class="task flex items-center gap-2 btn btn-hover sidebar-btn-w">
+                <img src="./assets/icons/WhiteTick.svg" alt="" class="img-5"/>
+                <p class="text-sm">All Tasks</p>
+              </div>
+  
+              <div class="starred-task flex  items-center gap-3 btn btn-hover sidebar-btn-w">
+                <img src="./assets/icons/star.svg" alt="" class="img-4">
+                <p class="text-sm">
+                  Starred task
+                </p>
+              </div>
+  
+              <div class="list flex items-center justify-between pb-2 sidebar-btn-w">
+                <p>Lists</p>
+                <div class="img-circle flex justify-center items-center ArrowHead">
+                  <img src="./assets/icons/ArrowHead.svg" alt="" />
+                </div>
+              </div>
+              <!-- -----------------------------------------  -->
+              <div id="check-lists" class="check-lists flex flex-col gap-3">
+                <div class="flex items-center gap-2 sidebar-btn-w">
+
+                  <input type="checkbox" name="" id="mytask1" class="sideCheckBox" value="mytask" >
+                  <label for="mytask1" class="text-sm ">My Task</label>
+                </div>
+                <div class="flex items-center gap-2 sidebar-btn-w">
+                  <input type="checkbox" name=""  value="mytask2" class="sideCheckBox" id="mytask2">
+                  <label for="mytask2" class="text-sm ">My Task 2</label>
+                </div>
+              </div>
+  
+              <div class="flex items-center gap-2 btn btn-hover sidebar-btn-w" id="create-list-btn">
+                <img src="./assets/icons/plus.svg" alt=""  />
+                <p class="text-sm">Create new list</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="overflow-container  flex justify-center gap-3">
+          <!-- ----------------------------------------------- -->
+          <div class="task-content-container" id="first-list">
+            <!-- --------------------main-content -->
+             <div class="main-contain  h-full  flex  justify-center  ">
+              <div class="contain-content  ">
+                <div class="contain  ">
+                  <div class="head flex flex-col gap-5">
+                    <div class="head flex items-center justify-between ">
+                      <h3>My Tasks</h3>
+                      <span class="img-circle flex justify-center items-center">
+    
+                        <img src="./assets/icons/Dots.svg" alt="" class=""/>
+                      </span>
+                    </div>
+                    <div class="add-task flex items-center gap-4">
+                      <img src="./assets/icons/WhiteTick.svg" alt="" />
+                      <p>Add a task</p></div>
+                    </div>
+    
+                    <div class="List-content flex flex-col justify-center items-center h-full  mt-5">
+                      <!-- -------------------No tasks yet -->
+                      <div class="empty-task flex
+                      justify-center items-center" id="empty-task">
+                        <div class="content flex flex-col justify-center items-center" id="content">
+                          <img src="./assets/image/NoAnyTasks.svg" alt="" class="no-task-img" id="no-task-img"/>
+                          <h3 id="no-task-heading">No starred tasks</h3>
+                          <p id="no-task-paragraph">
+                            Mark important tasks with a star so you can easily find them here
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                </div>
+              </div>
+             </div>
+          </div>
+         
+
+          
+        </div>
+         <!-- -----------------------------  -->
+      </div>
+    </main>
+    <script src="script.js"></script>
+  </body>
+</html>
