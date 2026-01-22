@@ -43,6 +43,7 @@ header .contain > img {
     height: 100%;
     border-right: 1px solid rgb(48, 48, 48);
     transition: 0.3s all;
+    height: 92vh;
 }
 
 
@@ -73,9 +74,8 @@ header .contain > img {
 }
 
 .sidebar-container{
-    height: 94vh;
+    height: 92vh;
     background-color: rgba(137, 43, 226, 0);
-    position: absolute;
 }
 
 @media (max-width:1024px) {
@@ -99,25 +99,29 @@ header .contain > img {
 }
 /* ------------------main */
 
-/* #first-list{
-    margin-left: 10px;
-} */
+.task-content-container{
+    flex: 1 1 100px;   /* grow:1, shrink:1, basis:100px */
+    min-width: 295px;   /* never smaller than 50px */
+    max-width: 60%;  /* never bigger than 100px */
+    background: red;
+}
 
 .overflow-container{
     width: 100%;
-    /* margin-left: 3px; */
-    overflow: auto;
+    background-color: blue;
+    display: flex;
+    overflow-x: auto;
     scrollbar-width: none;
-    padding-left: 112px;
     scroll-behavior: smooth;
 }
 
-
-
+main > .container {
+    height: 92vh;
+}
 
 .main-contain {
-    height: 94vh;
-    width: 50em;
+    height: 92vh;
+    background: red;
 } 
 
 .main-contain > .contain-content{
@@ -125,13 +129,12 @@ header .contain > img {
     height: 100%;
 }
 
-.main-contain  .contain{
-    min-height: 50%;
+.main-contain .contain{
+    min-height: 20%;
     max-height: 90%;
     width: 100%;
     background-color: black;
-    margin-top: 10px;
-    padding: 26px 34px;
+    padding: 26px 26px;
     border-radius: 30px;
 }
 
@@ -141,7 +144,7 @@ img[src="./assets/Dots.svg"]{
 }
 
 .head h3{
-    font-size: 25px;
+    font-size: 20px;
     font-weight: lighter;
 }
 
@@ -205,3 +208,6 @@ img[src="./assets/Dots.svg"]{
 .pop-btn:active{
     color: rgb(58, 127, 238);
 }
+
+/* ---------------------------------------------- */
+

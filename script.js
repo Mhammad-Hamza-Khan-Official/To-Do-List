@@ -18,9 +18,75 @@ hamberger.addEventListener("click", () => {
   }
 });
 
+
+// ------------------------------------------------
+  const addMainList = (container ,id ,innerhtml,checked) => {
+    if (checked) {
+      let mainList = `<!-- ----------------------------------------------- -->
+            <div class="task-content-container" id="${id}">
+              <!-- --------------------main-content -->
+               <div class="main-contain  h-full  flex  justify-center  ">
+                <div class="contain-content  ">
+                  <div class="contain  ">
+                    <div class="head flex flex-col gap-5">
+                      <div class="head flex items-center justify-between ">
+                        <h3>${innerhtml}</h3>
+                        <span class="img-circle flex justify-center items-center">
+      
+                          <img src="./assets/icons/Dots.svg" alt="" class=""/>
+                        </span>
+                      </div>
+                      <div class="add-task flex items-center gap-4">
+                        <img src="./assets/icons/WhiteTick.svg" alt="" />
+                        <p>Add a task</p></div>
+                      </div>
+      
+                      <div class="List-content flex flex-col justify-center items-center h-full  mt-5">
+                        <!-- -------------------No tasks yet -->
+                        <div class="empty-task flex
+                        justify-center items-center" id="empty-task">
+                          <div class="content flex flex-col justify-center items-center" id="content">
+                            <img src="./assets/image/NoAnyTasks.svg" alt="" class="no-task-img" id="no-task-img"/>
+                            <h3 id="no-task-heading" class="text-base">No starred tasks</h3>
+                            <p id="no-task-paragraph" class="text-sm">
+                              Mark important tasks with a star so you can easily find them here
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                  </div>
+                </div>
+               </div>
+            </div>`
+  
+      container.insertAdjacentHTML("beforeend",mainList)
+    }else if(!checked){
+      console.log("not checked");
+      console.log(
+        document.querySelectorAll(`#${id}`)
+      );
+
+      let value = document.querySelectorAll(`#${id}`)[1]
+      console.log("value :",value);
+      
+      if (value === undefined) {
+        document.querySelectorAll(`#${id}`)[0].remove()
+        console.log("document.querySelectorAll(`#${id}`)[0].remove()");
+        
+      }else{
+        value.remove()
+      }
+      
+    }
+
+  }
+
+// ----------------------------------------------------
 let sidebarListContain = document.querySelector("#check-lists");
 
 let inputCheckBox = document.querySelectorAll(".sideCheckBox");
+
+let mainContainer = document.querySelector("#main-container")
 
 
 
@@ -35,9 +101,22 @@ const addSideList = (container, innerhtml) => {
 
                     container.insertAdjacentHTML("beforeend", inputCD)
 
-                    return(inputCD);
-                    
-                  };
+let newInputCheckBox = document.querySelector(`#${id}`)
+
+newInputCheckBox.addEventListener("change", (cd) => {
+    console.log("clicked :",cd.target.checked);
+    let checked = cd.target.checked;
+    let id = cd.target.value
+    let innerhtml = cd.target.labels[0].innerText
+    console.log("cd.target.value :",cd.target.value); // checkbox value
+    console.log(cd.target.labels[0].innerText);
+    addMainList(mainContainer,id,innerhtml,checked)
+    // label text
+    
+  });
+
+      return(inputCD);
+                };
                   
                   
                   
@@ -66,12 +145,16 @@ popText.addEventListener("input",() => {
   
 })
 
-
+// To checked or not 
 inputCheckBox.forEach((e) => {
   e.addEventListener("change", (cd) => {
-    console.log("clicked");
-    console.log(cd.target.value); // checkbox value
-    console.log(cd.target.labels[0].htmlFor);
+    console.log("clicked :",cd.target.checked);
+    let checked = cd.target.checked;
+    let id = cd.target.value
+    let innerhtml = cd.target.labels[0].innerText
+    console.log("cd.target.value :",cd.target.value); // checkbox value
+    console.log(cd.target.labels[0].innerText);
+    addMainList(mainContainer,id,innerhtml,checked)
     // label text
     
   });
@@ -79,7 +162,6 @@ inputCheckBox.forEach((e) => {
 
 
 // Done
-
 let lastIdx ;
 done.addEventListener("click",() => {
   console.log("inputTexts :",inputText);
@@ -112,3 +194,4 @@ cancle.addEventListener(("click"),() => popPop.style.display = "none")
       
   //   });
   // });
+

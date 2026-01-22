@@ -132,10 +132,25 @@ img{
 .bg-dark { background: #000000; }
 .bg-light { background: #ffffff; }
 .bg-blue { background: #2563eb; }
+.bg-transparent{ background: transparent;}
+.bg-color {background: #1b1c1d;}
 
 .text-white { color: #fff; }
 .text-black { color: #000; }
 .text-gray { color: #94a3b8; }
+
+.re-outline{outline: none;}
+.re-border{border: none;}
+
+.ls-0 { letter-spacing: 0px; }
+.ls-1 { letter-spacing: 1px; }
+.ls-2 { letter-spacing: 2px; }
+.ls-3 { letter-spacing: 3px; }
+.ls-4 { letter-spacing: 4px; }
+.ls-5 { letter-spacing: 5px; }
+.ls-6 { letter-spacing: 6px; }
+.ls-8 { letter-spacing: 8px; }
+.ls-10 { letter-spacing: 10px; }
 
 .border-red{
     border: 2px solid red;
@@ -202,6 +217,8 @@ input[type="checkbox"]{
 .pl-2 { padding-left: 8px; }
 .pl-3 { padding-left: 12px; }
 .pl-4 { padding-left: 16px; }
+.pl-5 { padding-left: 20px; }
+.pl-4 { padding-left: 24px; }
 
 
 /* --------------------------------------------------- */
@@ -211,6 +228,18 @@ input[type="checkbox"]{
 .mt-3 { margin-top: 12px; }
 .mt-4 { margin-top: 16px; }
 .mt-5 { margin-top: 20px; }
+
+/* Margin-left utilities in px */
+.ml-0 { margin-left: 0px; }
+.ml-1 { margin-left: 4px; }
+.ml-2 { margin-left: 8px; }
+.ml-3 { margin-left: 12px; }
+.ml-4 { margin-left: 16px; }
+.ml-5 { margin-left: 20px; }
+.ml-6 { margin-left: 24px; }
+.ml-7 { margin-left: 28px; }
+.ml-8 { margin-left: 32px; }
+.ml-10 { margin-left: 40px; }
 
 /* -------------------------------- */
 
@@ -235,4 +264,40 @@ input[type="checkbox"]{
 /* ==================================== */
 .sidebar-btn-w{
     width: 255.9px;
+}
+
+/* ----------------------------------------- */
+
+/* Hide default checkbox */
+.circle-check {
+  appearance: none; /* for modern browsers */
+  -webkit-appearance: none; /* Safari */
+  -moz-appearance: none; /* Firefox */
+  width: 20px;
+  height: 20px;
+  background: white;
+  border: 2px solid #333;
+  border-radius: 50%; /* makes it circular */
+  cursor: pointer;
+  position: relative;
+  outline: none;
+  transition: background 0.2s;
+}
+
+/* When checked, show a dot inside */
+.circle-check:checked::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 10px;
+  height: 10px;
+  background: #0022ff;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* Optional hover effect */
+.circle-check:hover {
+  border-color: #555;
 }
