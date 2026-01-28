@@ -30,46 +30,65 @@ hamberger.addEventListener("click", () => {
 let InnerMainListTask = (Container, Class) => {
   let id = Class;
   let innerList = `<!-- Items  -->
-                       <div class="list-task-contain w-full flex pl-4  gap-2 items-center justify-between task-contain-${Class}">
-                        <!-- .left side  -->
-                         <div class="left-side flex gap-1 flex-col">
+                    <div class="list-task-contain task-contain-${Class} ">
+                      <!-- .left side  -->
+                      <div class="left-checkbox flex items-center justify-center p-1">
 
-                           <div class="inputs flex  items-center gap-4  ">
-                            <!-- Checkbox to find task is complete  -->
-                             <div class="check-box h-full flex items-center ">
+                        <div class="inputs  items-center gap-4  ">
+                          <!-- Checkbox to find task is complete  -->
+                          <div class="check-box  ">
 
-                               <input type="checkbox" name="" id="" value="complete" class="check-complete-${id} circle-check task-check text-display text-display-${Class}">
-                             </div>
-                             <div>
-                              <!-- Get title input and title display -->
-                               <!-- input -->
-                               <input type="text" name="" id="" placeholder="Title" class="title input-title-${id} inputs-display inputs-display-${Class} ls-1 p-1 pl-1 pr-1 re-border re-outline bg-input task-input-text">
-                                <!-- display -->
-                               <h1 id="" class="title display-title-${id} text-sm task-text title text-display text-display-${Class}">HTML</h1>
-                             </div>
-                           </div>
-                           <!-- Text area for details  -->
-                            <!-- input -->
-                           <textarea name=""  cols="2.2" rows="3" placeholder="Details"  class=" input-title-${id} inputs-display inputs-display-${Class} bg-input re-border re-outline p-1 pl-1 pr-1 ls-1 task-textArea "></textarea>
-                            <!-- display -->
-                           <p id="details" class="para-display display-detail-${id} details text-display text-display-${Class} pl-8 text-xs ">This is details</p>
-                            <!-- Date container  -->
-                             <!-- to set date -->
-                           <div class="date flex gap-2 items-center inputs-display inputs-display-${Class} task-date-contain">
-                             <button class="task-today-btn today-btn-${id}">Today</button>
-                             <button class="task-tomorrow-btn tomorrow-btn-${id}">Tomorrow</button>
-                             <input type="date" class="task-date-input input-date-${id}" name="" id="date">
-                             <button class="btn-done task-done-btn done-${id}">Done</button>
-                           </div>
+                            <input type="checkbox" name="" id="check-complete-${id}" value="complete"
+                              class=" circle-check task-check text-display text-display-${Class}">
                           </div>
+                        </div>
+
+                      </div>
+
+                        <!-- ---------------------------  -->
+                        <div class="middle flex flex-col gap-1 p-1">
+                          <div>
+                            <!-- Get title input and title display -->
+                            <!-- input -->
+                            <input type="text" name="" id="input-title-${id}" placeholder="Title"
+                              class="title w-full inputs-display inputs-display-${Class} ls-1 p-1 pl-1 pr-1 re-border re-outline bg-input task-input-text">
+                            <!-- display -->
+                            <h1 id="display-title-${id}"
+                              class="title text-sm task-text title text-display text-display-${Class}">HTML</h1>
+                          </div>
+
+                          <!-- Text area for details  -->
+                          <div class="details-contain">
+                            <!-- input -->
+                            <textarea name="" rows="3" placeholder="Details" id="input-detail-${id}"
+                              class="  inputs-display inputs-display-${Class} bg-input re-border re-outline p-1 pl-1 pr-1 ls-1 task-textArea w-full"></textarea>
+                            <!-- display -->
+                            <p id="display-detail-${id}"
+                              class="para-display  details text-display text-display-${Class}  text-xs ">This is
+                              details</p>
+                          </div>
+                          <!-- Date container  -->
+                          <!-- to set date -->
+                          <div class="date  inputs-display inputs-display-${Class} task-date-contain">
+                            <button class="task-today-btn" id="today-btn-${id}">Today</button>
+                            <button class="task-tomorrow-btn " id="tomorrow-btn-${id}">Tomorrow</button>
+                            <input type="date" class="task-date-input  name="" id=" input-date-${id}"">
+                            <button class="btn-done task-done-btn " id="done-btn-${id}">Done</button>
+                          </div>
+                        </div>
+                        
+                        <div class="rignt">
                           <!-- Right side img dots -->
-                           <div class="right-side">
-                             <div class="img-circle c-pointer task-dot-contain flex items-center text-display dots-${id} text-display-${Class}">
-                               <img src="./assets/icons/Dots.svg" alt="" class="dots-input  img-4">
-                             </div>
-                           </div>
-                       </div>
-                       <!-- ---------------------------  -->`;
+                          <div class="right-side p-1">
+                            <div class=" c-pointer task-dot-contain  text-display  text-display-${Class}"
+                              id="dots-${id}">
+                              <img src="./assets/icons/Dots.svg" alt="" class="dots-input  img-4">
+                            </div>
+                          </div>
+                        </div>
+
+                    </div>
+                    <!-- ---------------------------  -->`;
   // Append inner list to container
   Container.insertAdjacentHTML("beforeend", innerList);
 };
@@ -78,6 +97,13 @@ let InnerMainListTask = (Container, Class) => {
 
 // Create and add main task list section
 const addMainList = (container, id, innerhtml, checked) => {
+  id = id
+    .replaceAll(" ", "-")
+    .replace(/[^a-zA-Z0-9\s-]/g, "")
+    .replace(/\p{Extended_Pictographic}/gu, "")
+    .toString()
+    .trim();
+  id = id.toUpperCase();
   // Main list HTML structure
   let mainList = `<!-- ----------------------------------------------- -->
         <div class="task-content-container" id="${id}">
@@ -92,7 +118,7 @@ const addMainList = (container, id, innerhtml, checked) => {
                       <img src="./assets/icons/Dots.svg" alt="" />
                     </span>
                   </div>
-                  <div class="add-task flex items-center gap-4 Add-task-btn-${id} c-pointer">
+                  <div class="add-task flex items-center gap-4 Add-task-btn Add-task-btn-${id} c-pointer" id="Add-task-btn-${id}">
                     <img src="./assets/icons/WhiteTick.svg" alt="" />
                     <p>Add a task</p>
                   </div>
@@ -112,7 +138,7 @@ const addMainList = (container, id, innerhtml, checked) => {
                   </div>
 
                     <!-- Tasks list container -->
-                     <div class="task-container task-container-${id} w-full flex items-center pr-4 task-contain" >
+                     <div class="task-container task-container-${id} w-full flex items-center pr-4 task-contain flex-col gap-2" >
                       
                      </div>
                      <!-- ======================= -->
@@ -132,8 +158,6 @@ const addMainList = (container, id, innerhtml, checked) => {
   let addTaskBtn = document.querySelector(`.Add-task-btn-${id}`);
   let taskContain = document.querySelector(`.task-contain-${id}`);
   let emptyTask = document.querySelector(`#empty-task-${id}`);
-
-
 };
 
 // ----------------------------------------------------
@@ -151,6 +175,13 @@ let mainContainer = document.querySelector("#main-container");
 
 // Create and add sidebar list item
 const addSideList = (container, innerhtml, id) => {
+  id = id
+    .replaceAll(" ", "-")
+    .replace(/[^a-zA-Z0-9\s-]/g, "")
+    .replace(/\p{Extended_Pictographic}/gu, "")
+    .toString()
+    .trim();
+  id = id.toUpperCase();
   // Sidebar checkbox HTML
   let sideList = `
     <div class="flex items-center gap-2 sidebar-btn-w">
@@ -307,78 +338,183 @@ cancle.addEventListener("click", () => {
 //Inner main list Tasks
 // ===================
 
-// Input Title
-let titleInput = document.querySelectorAll(".task-input-text");
+// Track Add task button clicks
+window.addEventListener("load", () => {
+  document.querySelectorAll(".Add-task-btn").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      console.log("Add task button clicked:", btn);
+      console.log("Add task button id clicked:", btn.id);
+      // We can add functionality here to handle adding a task
 
-// Array of title
-let titleArray = [];
-//Track input title
-titleInput.forEach((e) => {
-  e.addEventListener("input", (cd) => {
-    //Get value
-    let value = cd.target.value;
-    //push the value in empty Array
-    titleArray.push(value);
+      //Remove empty task message when adding a task
+      let id = btn.id.replace("Add-task-btn-", "");
+      let emptyTask = document.querySelector(`#empty-task-${id}`);
+      emptyTask.style.display = "none";
+
+      // Select the task container for the corresponding main list
+      let taskContain = document.querySelector(`.task-container-${id}`);
+      // Call function to add inner main list task
+      InnerMainListTask(taskContain, id); // Add task to the specific main list
+
+      console.log("taskContain :", taskContain);
+
+      // Input Title
+      let titleInput = document.querySelectorAll(".task-input-text");
+
+      // Array of title
+      let titleArray = [];
+      //Track input title
+      titleInput.forEach((e) => {
+        e.addEventListener("input", (cd) => {
+          //Get value
+          let value = cd.target.value;
+          //push the value in empty Array
+          titleArray.push(value);
+          console.log(`title value ${value}`);
+        });
+      });
+
+      // --------------------------------
+      // Input Details
+      let detailInput = document.querySelectorAll(".task-textArea");
+
+      // Array of details
+      let detailArray = [];
+      //Track input details
+      detailInput.forEach((e) => {
+        e.addEventListener("input", (cd) => {
+          //Get value
+          let value = cd.target.value;
+          //push the value in empty Array
+          detailArray.push(value);
+        });
+      });
+
+      // --------------------------------
+      // Input Date
+      let dateInput = document.querySelectorAll(".task-date-input");
+      // Array of dates
+      let dateArray = [];
+      //Track input date
+      dateInput.forEach((e) => {
+        e.addEventListener("input", (cd) => {
+          //Get value
+          let value = cd.target.value;
+          //push the value in empty Array
+          dateArray.push(value);
+        });
+      });
+      // --------------------------------
+      // Today Button
+      let todayBtn = document.querySelectorAll(".task-today-btn");
+      //Track Today button click
+      todayBtn.forEach((btn) => {
+        btn.addEventListener("click", () => {
+          //Get today's date
+          let today = new Date().toISOString().split("T")[0];
+          //Find the corresponding date input
+          let dateInput = btn.nextElementSibling;
+          //Set date input value to today's date
+          dateInput.value = today;
+        });
+      });
+      // --------------------------------
+      // Tomorrow Button
+      let tomorrowBtn = document.querySelectorAll(".task-tomorrow-btn");
+      //Track Tomorrow button click
+      tomorrowBtn.forEach((btn) => {
+        btn.addEventListener("click", () => {
+          //Get tomorrow's date
+          let tomorrow = new Date();
+          tomorrow.setDate(tomorrow.getDate() + 1);
+          let tomorrowDate = tomorrow.toISOString().split("T")[0];
+          //Find the corresponding date input
+          let dateInput = btn.nextElementSibling;
+          //Set date input value to tomorrow's date
+          dateInput.value = tomorrowDate;
+        });
+      });
+      // --------------------------------
+      // Done Button
+      let doneBtn = document.querySelectorAll(`#done-btn-${id}`);
+      //Track Done button click
+      doneBtn.forEach((btn) => {
+        btn.addEventListener("click", () => {
+          //Get Title
+          let titleInput =
+            btn.parentElement.parentElement.querySelector(".task-input-text");
+            console.log(`titleInput :${titleInput}`);
+            
+            //Get Details
+            let detailInput =
+              btn.parentElement.parentElement.querySelector(".task-textArea");
+
+          //Get Title display
+          let titleDisplay =
+            btn.parentElement.parentElement.querySelector(".task-text");
+          //Get Details display
+          let detailDisplay =
+            btn.parentElement.parentElement.querySelector(".details");
+
+          //Set Title display and hide input
+          titleDisplay.innerText = titleInput.value;
+          titleInput.style.display = "none";
+          titleDisplay.style.display = "block";
+          //Set Details display and hide input
+          detailDisplay.innerText = detailInput.value;
+          detailInput.style.display = "none";
+          detailDisplay.style.display = "block";
+          //Display checkbox
+          let checkBox =
+            btn.parentElement.parentElement.querySelector(".task-check");
+          checkBox.style.display = "block";
+          //Hide date input and buttons
+          let dateContain =
+            btn.parentElement.parentElement.querySelector(
+              ".task-date-contain",
+            );
+          dateContain.style.display = "none";
+        });
+      });
+    });
+    // -----------------------------------------
   });
 });
-
-// Input Details
-let detailInput = document.querySelectorAll(".task-textArea");
-
-// Array of details
-let detailArray = [];
-//Track input details
-detailInput.forEach((e) => {
-  e.addEventListener("input", (cd) => {
-    //Get value
-    let value = cd.target.value;
-    //push the value in empty Array
-    detailArray.push(value);
-  });
-});
-
-//title and detail
-//Select all title and detail class
-
-// //select title class means h1
-// let titleText = document.querySelector(".title")
-// //select detail class means p
-// let detailText = document.querySelector(".detail")
 
 // ===================================
 // Load lists from local storage
 // ===================================
 
+
 window.addEventListener("DOMContentLoaded", () => {
   for (let key in localStorage) {
-    // Check for mainList
+
+    // Load main lists
     if (key.startsWith("mainList-")) {
-      mainContainer.insertAdjacentHTML("beforeend", localStorage.getItem(key));
-      //Check for sideList
-    } else if (key.startsWith("sideList-")) {
+      mainContainer.insertAdjacentHTML(
+        "beforeend",
+        localStorage.getItem(key)
+      );
+    }
+
+    // Load sidebar lists
+    else if (key.startsWith("sideList-")) {
       sidebarListContain.insertAdjacentHTML(
         "beforeend",
-        localStorage.getItem(key),
+        localStorage.getItem(key)
       );
-
-      //Check for sideListId
-    } else if (key.startsWith("sideListId-")) {
-      let id = localStorage.getItem(key);
-      let checkbox = document.querySelector(`#${id}`);
-      // Track checkbox state
-      checkbox.addEventListener("change", (cd) => {
-        let checked = cd.target.checked;
-        let mainLists = document.querySelectorAll(`#${id}`)[1];
-        //Main list Conditions
-        //If checked
-        if (checked) {
-          //visible
-          mainLists.style.display = "block";
-          //if unchecked
-        } else if (!checked) {
-          mainLists.style.display = "none";
-        }
-      });
     }
   }
+
+  document.querySelectorAll(".sideCheckBox").forEach((checkbox) => {
+    checkbox.addEventListener("change", (e) => {
+      let id = e.target.id;
+
+      // second element with same id = main list
+      let mainList = document.querySelectorAll(`#${id}`)[1];
+      if (!mainList) return;
+
+      mainList.style.display = e.target.checked ? "block" : "none";
+    });
+  });
 });

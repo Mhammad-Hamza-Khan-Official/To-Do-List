@@ -203,18 +203,21 @@ img[src="./assets/Dots.svg"] {
 /* ---------------------------------------------- */
 
 .list-task-contain {
-  padding: 5px 20px;
   min-height: 40px;
-  max-height: auto;
+  width: 90%;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  border: #7d7e82 solid 1px;
+  border-radius: 8px;
+  padding: 2px 0;
 }
 
 .task-container {
   border-radius: 20px;
 }
 
-.task-container {
-  background: #313336;
-}
+
 
 .detail {
   position: relative;
