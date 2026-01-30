@@ -34,14 +34,15 @@ header .contain > img {
 }
 
 /* ------------------------------------------------- */
-.sidebar {
+.sidebar-container {
   width: 0;
   overflow-x: hidden;
   background-color: var(--bg-color);
   height: 100%;
-  border-right: 1px solid rgb(48, 48, 48);
-  transition: 0.3s all;
+  transition: 0.5s all;
+  transition-timing-function: cubic-bezier(0.53, -0.09, 0.58, 1);
   height: 92vh;
+  background: #000;
 }
 
 .sidebar button {
@@ -72,14 +73,13 @@ header .contain > img {
   background-color: rgba(137, 43, 226, 0);
 }
 
+
 @media (max-width: 1024px) {
   .sidebar-container {
     position: absolute !important;
   }
 
-  .task-content-container {
-    width: 100% !important;
-  }
+
 
   main > .container {
     flex-direction: column;
@@ -93,9 +93,9 @@ header .contain > img {
 /* ------------------main */
 
 .task-content-container {
-  flex: 1 1 100px; /* grow:1, shrink:1, basis:100px */
-  min-width: 295px; /* never smaller than 50px */
-  max-width: 60%; /* never bigger than 100px */
+    flex: 1 1 100px;
+    min-width: 20vw;
+    max-width: 39vw; /* never bigger than 100px */
   /* background: red; */
 }
 
@@ -204,25 +204,64 @@ img[src="./assets/Dots.svg"] {
 
 .list-task-contain {
   min-height: 40px;
-  width: 90%;
-  display: grid;
+  max-height: 200px;
+  width: 100%;
+  padding: 5px;
+  /* display: grid;  */
   grid-template-columns: auto 1fr auto;
   align-items: center;
   border: #7d7e82 solid 1px;
   border-radius: 8px;
   padding: 2px 0;
+  vertical-align: middle;
 }
+
+input[type="text"]:focus{
+  outline: none;
+  background-color: #323335;
+}
+
+input[type="text"]:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0 1000px #323335 inset !important;
+  -webkit-text-fill-color: #fff !important;
+  -webkit-text-transform: uppercase;
+}
+
+input[type="text"] {
+  background: #323335;
+  color: #fff !important;
+  border: none;
+}
+
+.detail-input:focus{
+  outline: none;
+  background-color: #323335;
+  overflow: hidden;
+} 
+
+.detail-input:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0 1000px #323335 inset !important;
+  -webkit-text-fill-color: #fff !important;
+}
+
 
 .task-container {
   border-radius: 20px;
 }
 
-
-
-.detail {
-  position: relative;
-  left: 31px;
+.details-contain{
+  width: 100%;
 }
+
+.para-display {
+    width: 100%;
+    overflow: hidden;
+    min-height: 16px;
+    max-height: 47px;
+    line-height: 15px;
+}
+
+
 
 .dots-input {
   display: inline-block;
@@ -275,11 +314,12 @@ img[src="./assets/Dots.svg"] {
 }
 
 /* completed---------------------- */
-.complete-container img {
-  height: 10px;
-  width: 10px;
-  rotate: 180deg;
+.complete-container{
+  display: none;
+  margin-top: 10px;
 }
+
+
 
 .date-contain p {
   font-size: 10px;
@@ -315,3 +355,50 @@ img[src="./assets/Dots.svg"] {
   max-height: 80%;
   overflow-y: auto;
 }
+
+/* Remove default arrow */
+summary {
+  list-style: none;
+  color: white;
+}
+summary::-webkit-details-marker {
+  display: none;
+}
+
+/* Animation target */
+.completed-list-container {
+  overflow: hidden;
+  max-height: 0;
+  opacity: 0;
+  transform: translateY(-5px);
+  transition: 
+    max-height 0.3s ease,
+    opacity 0.3s ease,
+    transform 0.3s ease;
+}
+
+
+/* When details is open */
+details[open] .completed-list-container {
+  max-height: 100%; 
+  opacity: 1;
+  transform: translateY(0);
+}
+
+details[open] .arrow {
+  max-height: 100%; 
+  opacity: 1;
+  transform: translateY(0);
+  transform: rotate(180deg);
+}
+
+.arrow {
+  transition: transform 0.3s ease;
+  width: 12px;
+  height: 12px;
+  transform: rotate(90deg);
+}
+
+
+
+/* ---------------------------------------------- */

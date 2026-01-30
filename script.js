@@ -2,7 +2,7 @@
 let hamberger = document.querySelector("#hamberger");
 
 // Select sidebar element
-let sidebar = document.querySelector(".sidebar");
+let sidebar = document.querySelector(".sidebar-container");
 
 // Track sidebar open/close state
 let sidebarOpen = true;
@@ -11,7 +11,7 @@ let sidebarOpen = true;
 hamberger.addEventListener("click", () => {
   if (sidebarOpen) {
     // Open sidebar
-    sidebar.style.width = "100%";
+    sidebar.style.width = "30%";
     sidebar.style.padding = "0px 30px";
     sidebar.style.borderRight = "1px solid rgb(48, 48, 48)";
     sidebarOpen = false;
@@ -29,17 +29,19 @@ hamberger.addEventListener("click", () => {
 // Function to make inner main list tasks work
 let InnerMainListTask = (Container, Class) => {
   let id = Class;
-  let innerList = `<!-- Items  -->
-                    <div class="list-task-contain task-contain-${Class} ">
+  let innerList = `
+                    <!-- ======================= -->
+                    <!-- Items  -->
+                    <div class="list-task-contain task-contain task-contain-${Class} ">
                       <!-- .left side  -->
-                      <div class="left-checkbox flex items-center justify-center p-1">
+                      <div class="left-checkbox flex items-center justify-center p-1 text-display">
 
                         <div class="inputs  items-center gap-4  ">
                           <!-- Checkbox to find task is complete  -->
                           <div class="check-box  ">
 
                             <input type="checkbox" name="" id="check-complete-${id}" value="complete"
-                              class=" circle-check task-check text-display text-display-${Class}">
+                              class=" circle-check task-check  text-display-${Class}">
                           </div>
                         </div>
 
@@ -54,18 +56,17 @@ let InnerMainListTask = (Container, Class) => {
                               class="title w-full inputs-display inputs-display-${Class} ls-1 p-1 pl-1 pr-1 re-border re-outline bg-input task-input-text">
                             <!-- display -->
                             <h1 id="display-title-${id}"
-                              class="title text-sm task-text title text-display text-display-${Class}">HTML</h1>
+                              class="title text-sm task-text title text-display text-display-${Class}"></h1>
                           </div>
 
                           <!-- Text area for details  -->
                           <div class="details-contain">
                             <!-- input -->
-                            <textarea name="" rows="3" placeholder="Details" id="input-detail-${id}"
+                            <textarea name="" rows="3" maxlength="200" placeholder="Details" id="input-detail-${id}"
                               class="  inputs-display inputs-display-${Class} bg-input re-border re-outline p-1 pl-1 pr-1 ls-1 task-textArea w-full"></textarea>
                             <!-- display -->
                             <p id="display-detail-${id}"
-                              class="para-display  details text-display text-display-${Class}  text-xs ">This is
-                              details</p>
+                              class="para-display  details text-display text-display-${Class}  text-xs "></p>
                           </div>
                           <!-- Date container  -->
                           <!-- to set date -->
@@ -88,9 +89,45 @@ let InnerMainListTask = (Container, Class) => {
                         </div>
 
                     </div>
-                    <!-- ---------------------------  -->`;
+                    <!-- ---------------------------  -->
+                  `;
   // Append inner list to container
   Container.insertAdjacentHTML("beforeend", innerList);
+};
+
+//----------------------------------------------------
+const addCompletedTask = (container, id) => {
+  // Code to add completed task
+  let completedTask = ` <!-- List items -->
+                      <div class="list-container completed-list-${id}  flex gap-3 relative  flex justify-between mt-2">
+                        <!-- container  -->
+                        <div class="container flex items-center gap-3 pl-4">
+                          <!-- tick img  -->
+                          <div class="img">
+                            <img src="./assets/icons/successTick.svg" alt="">
+                          </div>
+                          <!-- text  -->
+                          <div class="text gap-1 flex flex-col ">
+                            <!-- title  -->
+                            <p class="title completed-title-${id} completed-title text-xs" data-id="${id}">
+                            </p>
+                            <!-- Date  container-->
+                            <div class="date-contain flex gap-2 ">
+                              <p>Completed :</p>
+                              <p class="day day-${id}"></p>
+                              <p class="month month-${id}"></p>
+                              <p class="Date date-${id}"></p>
+                            </div>
+                          </div>
+                        </div>
+                        <!-- Right img bin  -->
+                        <div class="right-img delete-${id} delete-btn pr-4">
+                          <img src="assets/icons/Bin.svg" alt="Bin">
+                        </div>
+                      </div>
+                      <!-- =============================================== -->`;
+  // Append completed task to container
+  container.insertAdjacentHTML("beforeend", completedTask);
 };
 
 //----------------------------------------------------
@@ -138,10 +175,23 @@ const addMainList = (container, id, innerhtml, checked) => {
                   </div>
 
                     <!-- Tasks list container -->
-                     <div class="task-container task-container-${id} w-full flex items-center pr-4 task-contain flex-col gap-2" >
+                     <div class="task-container task-container-${id} w-full flex items-center  task-contain flex-col gap-2" >
                       
                      </div>
                      <!-- ======================= -->
+                       <!-- completed -->
+                  <details class="complete-container complete-container-${id} w-full pl-4 gap-2" id="">
+                    <summary class=" c-pointer w-full gap-2">
+                      <img class="arrow img " src="./assets/icons/ArrowHead.svg" alt="">
+                      <span>Completed (<span id="completed-num">1</span>)</span>
+                    </summary>
+                   <!-- ======================================================================== -->
+                    <!-- Completed list Container-->
+                    <div class="completed-list-container completed-list-container-${id} flex flex-col gap-1 w-full justify-center items-center">
+ 
+                    </div>
+                  </details>
+                  <!-- ---------------------------------------------------------- -->
                 </div>
 
               </div>
@@ -338,7 +388,7 @@ cancle.addEventListener("click", () => {
 //Inner main list Tasks
 // ===================
 
-// Track Add task button clicks
+// Track by reload
 window.addEventListener("load", () => {
   document.querySelectorAll(".Add-task-btn").forEach((btn) => {
     btn.addEventListener("click", () => {
@@ -355,6 +405,8 @@ window.addEventListener("load", () => {
       let taskContain = document.querySelector(`.task-container-${id}`);
       // Call function to add inner main list task
       InnerMainListTask(taskContain, id); // Add task to the specific main list
+      // taskContain
+      taskContain.style.display = "flex";
 
       console.log("taskContain :", taskContain);
 
@@ -370,7 +422,7 @@ window.addEventListener("load", () => {
           let value = cd.target.value;
           //push the value in empty Array
           titleArray.push(value);
-          console.log(`title value ${value}`);
+          // console.log(`title value ${value}`);
         });
       });
 
@@ -443,11 +495,12 @@ window.addEventListener("load", () => {
           //Get Title
           let titleInput =
             btn.parentElement.parentElement.querySelector(".task-input-text");
-            console.log(`titleInput :${titleInput}`);
-            
-            //Get Details
-            let detailInput =
-              btn.parentElement.parentElement.querySelector(".task-textArea");
+
+          // console.log(`titleInput :${titleInput}`);
+
+          //Get Details
+          let detailInput =
+            btn.parentElement.parentElement.querySelector(".task-textArea");
 
           //Get Title display
           let titleDisplay =
@@ -458,50 +511,289 @@ window.addEventListener("load", () => {
 
           //Set Title display and hide input
           titleDisplay.innerText = titleInput.value;
-          titleInput.style.display = "none";
-          titleDisplay.style.display = "block";
           //Set Details display and hide input
           detailDisplay.innerText = detailInput.value;
-          detailInput.style.display = "none";
-          detailDisplay.style.display = "block";
-          //Display checkbox
-          let checkBox =
-            btn.parentElement.parentElement.querySelector(".task-check");
-          checkBox.style.display = "block";
-          //Hide date input and buttons
-          let dateContain =
-            btn.parentElement.parentElement.querySelector(
-              ".task-date-contain",
+
+          //Change display states
+          //inputs display
+          let inputElements =
+            btn.parentElement.parentElement.querySelectorAll(".inputs-display");
+          //Elements display
+          let displayElements =
+            btn.parentElement.parentElement.querySelectorAll(".text-display");
+          //Checkbox display
+          let checkBoxDisplay =
+            btn.parentElement.parentElement.parentElement.querySelectorAll(
+              ".text-display",
             );
-          dateContain.style.display = "none";
+          //To Change the grid display of list task contain
+          let listTaskContain = btn.parentElement.parentElement.parentElement;
+          console.log("listTaskContain:", listTaskContain);
+          //Set grid display for list task contain
+          listTaskContain.style.display = "grid";
+          //Set grid template columns
+          listTaskContain.style.gridTemplateColumns = "auto 1fr auto";
+          //Align items to center
+          listTaskContain.style.alignItems = "center";
+
+          // Hide inputs and show displays
+          inputElements.forEach((el) => (el.style.display = "none "));
+
+          displayElements.forEach((el) => (el.style.display = "block"));
+
+          checkBoxDisplay.forEach((el) => {
+            el.style.display = "block";
+            // console.log("checkBoxDisplay:", el);
+          });
+
+          // -----------------------------------------
+
+          let checkBoxCompleteTask =
+            btn.parentElement.parentElement.parentElement.querySelector(
+              ".task-check",
+            );
+
+          checkBoxCompleteTask.addEventListener("change", (cd) => {
+            let checked = cd.target.checked;
+            console.log(checked);
+            if (checked) {
+              //Target Current checked taskContain
+              let taskContainer =
+                cd.target.parentElement.parentElement.parentElement
+                  .parentElement;
+              //taskContain display none
+              taskContainer.style.display = "none";
+
+              // Add to completed task container
+              let completedListContainer = document.querySelector(
+                `.completed-list-container-${id}`,
+              );
+              //Invoked
+              //To make Completed list
+              addCompletedTask(completedListContainer, id);
+              //Target Completed container
+              let completedContainer = document.querySelector(
+                `.complete-container-${id}`,
+              );
+              // change display
+              completedContainer.style.display = "block";
+              console.log("Input Value :", titleInput.value);
+
+              //Target Completed Title
+              let completedTitle = document.querySelectorAll(
+                `.completed-title[data-id="${id}"]`,
+              );
+
+              //Change Completed title innerText
+              completedTitle[completedTitle.length -1].innerText = titleInput.value;
+
+              completedTitle.innerText = titleInput.value;
+              console.log("completedTitle", completedTitle);
+              // completedTitle.innerText = titleInput.value
+
+              //Target the Delete btn completed tasks
+              let deleteBtn = document.querySelectorAll(".delete-btn");
+              deleteBtn.forEach((e) => {
+                e.addEventListener("click", (el) => {
+                  let completeList = el.target.parentElement.parentElement;
+                  console.log("completeList :", completeList);
+                  completeList.style.display = "none";
+                });
+              });
+
+              //========================================
+            }
+          });
         });
       });
     });
-    // -----------------------------------------
+
+    //--------------------------------------------
   });
 });
+// ------------------------------------------------
+//Track without reload
+// document.querySelectorAll(".Add-task-btn").forEach((btn) => {
+//   btn.addEventListener("click", () => {
+//     console.log("Add task button clicked:", btn);
+//     console.log("Add task button id clicked:", btn.id);
+//     // We can add functionality here to handle adding a task
 
+//     //Remove empty task message when adding a task
+//     let id = btn.id.replace("Add-task-btn-", "");
+//     let emptyTask = document.querySelector(`#empty-task-${id}`);
+//     emptyTask.style.display = "none";
+
+//     // Select the task container for the corresponding main list
+//     let taskContain = document.querySelector(`.task-container-${id}`);
+//     // Call function to add inner main list task
+//     InnerMainListTask(taskContain, id); // Add task to the specific main list
+
+//     console.log("taskContain :", taskContain);
+
+//     // Input Title
+//     let titleInput = document.querySelectorAll(".task-input-text");
+
+//     // Array of title
+//     let titleArray = [];
+//     //Track input title
+//     titleInput.forEach((e) => {
+//       e.addEventListener("input", (cd) => {
+//         //Get value
+//         let value = cd.target.value;
+//         //push the value in empty Array
+//         titleArray.push(value);
+//         console.log(`title value ${value}`);
+//       });
+//     });
+
+//     // --------------------------------
+//     // Input Details
+//     let detailInput = document.querySelectorAll(".task-textArea");
+
+//     // Array of details
+//     let detailArray = [];
+//     //Track input details
+//     detailInput.forEach((e) => {
+//       e.addEventListener("input", (cd) => {
+//         //Get value
+//         let value = cd.target.value;
+//         //push the value in empty Array
+//         detailArray.push(value);
+//       });
+//     });
+
+//     // --------------------------------
+//     // Input Date
+//     let dateInput = document.querySelectorAll(".task-date-input");
+//     // Array of dates
+//     let dateArray = [];
+//     //Track input date
+//     dateInput.forEach((e) => {
+//       e.addEventListener("input", (cd) => {
+//         //Get value
+//         let value = cd.target.value;
+//         //push the value in empty Array
+//         dateArray.push(value);
+//       });
+//     });
+//     // --------------------------------
+//     // Today Button
+//     let todayBtn = document.querySelectorAll(".task-today-btn");
+//     //Track Today button click
+//     todayBtn.forEach((btn) => {
+//       btn.addEventListener("click", () => {
+//         //Get today's date
+//         let today = new Date().toISOString().split("T")[0];
+//         //Find the corresponding date input
+//         let dateInput = btn.nextElementSibling;
+//         //Set date input value to today's date
+//         dateInput.value = today;
+//       });
+//     });
+//     // --------------------------------
+//     // Tomorrow Button
+//     let tomorrowBtn = document.querySelectorAll(".task-tomorrow-btn");
+//     //Track Tomorrow button click
+//     tomorrowBtn.forEach((btn) => {
+//       btn.addEventListener("click", () => {
+//         //Get tomorrow's date
+//         let tomorrow = new Date();
+//         tomorrow.setDate(tomorrow.getDate() + 1);
+//         let tomorrowDate = tomorrow.toISOString().split("T")[0];
+//         //Find the corresponding date input
+//         let dateInput = btn.nextElementSibling;
+//         //Set date input value to tomorrow's date
+//         dateInput.value = tomorrowDate;
+//       });
+//     });
+//     // --------------------------------
+//     // Done Button
+//     let doneBtn = document.querySelectorAll(`#done-btn-${id}`);
+//     //Track Done button click
+//     doneBtn.forEach((btn) => {
+//       btn.addEventListener("click", () => {
+//         //Get Title
+//         let titleInput =
+//           btn.parentElement.parentElement.querySelector(".task-input-text");
+
+//         console.log(`titleInput :${titleInput}`);
+
+//         //Get Details
+//         let detailInput =
+//           btn.parentElement.parentElement.querySelector(".task-textArea");
+
+//         let checkBox =
+//           btn.parentElement.parentElement.querySelector(".task-check");
+
+//         //Get Title display
+//         let titleDisplay =
+//           btn.parentElement.parentElement.querySelector(".task-text");
+//         //Get Details display
+//         let detailDisplay =
+//           btn.parentElement.parentElement.querySelector(".details");
+
+//         //Set Title display and hide input
+//         titleDisplay.innerText = titleInput.value;
+//         //Set Details display and hide input
+//         detailDisplay.innerText = detailInput.value;
+
+//         //Change display states
+//         //inputs display
+//         let inputElements = btn.parentElement.parentElement.querySelectorAll(".inputs-display");
+//         //Elements display
+//         let displayElements = btn.parentElement.parentElement.querySelectorAll(
+//           ".text-display");
+//         //Checkbox display
+//         let checkBoxDisplay = btn.parentElement.parentElement.parentElement.querySelectorAll(
+//           ".text-display");
+//         //To Change the grid display of list task contain
+//         let listTaskContain = btn.parentElement.parentElement.parentElement;
+//         console.log("listTaskContain:", listTaskContain);
+//         //Set grid display for list task contain
+//         listTaskContain.style.display = "grid";
+//         //Set grid template columns
+//         listTaskContain.style.gridTemplateColumns = "auto 1fr auto";
+//         //Align items to center
+//         listTaskContain.style.alignItems = "center";
+
+//         // Hide inputs and show displays
+//         inputElements.forEach((el) => (el.style.display = "none "));
+
+//         displayElements.forEach((el) => (el.style.display = "block"));
+
+//         checkBoxDisplay.forEach((el) => {
+//           (el.style.display = "block")
+//           console.log("checkBoxDisplay:", el);
+//         });
+
+//       });
+//     });
+//     // -----------------------------------------
+//     let checkBoxCompleteTask = document.querySelectorAll( `check-complete-${id}` )
+//     checkBoxCompleteTask.forEach((cb) => {
+//       console.log(cb.target.value);
+
+//     })
+//   });
+//   //--------------------------------------------
+// });
 // ===================================
 // Load lists from local storage
 // ===================================
 
-
 window.addEventListener("DOMContentLoaded", () => {
   for (let key in localStorage) {
-
     // Load main lists
     if (key.startsWith("mainList-")) {
-      mainContainer.insertAdjacentHTML(
-        "beforeend",
-        localStorage.getItem(key)
-      );
+      mainContainer.insertAdjacentHTML("beforeend", localStorage.getItem(key));
     }
 
     // Load sidebar lists
     else if (key.startsWith("sideList-")) {
       sidebarListContain.insertAdjacentHTML(
         "beforeend",
-        localStorage.getItem(key)
+        localStorage.getItem(key),
       );
     }
   }
