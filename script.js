@@ -11,7 +11,7 @@ let sidebarOpen = true;
 hamberger.addEventListener("click", () => {
   if (sidebarOpen) {
     // Open sidebar
-    sidebar.style.width = "30%";
+    sidebar.style.width = "270px";
     sidebar.style.padding = "0px 30px";
     sidebar.style.borderRight = "1px solid rgb(48, 48, 48)";
     sidebarOpen = false;
@@ -67,6 +67,8 @@ let InnerMainListTask = (Container, Class) => {
                             <!-- display -->
                             <p id="display-detail-${id}"
                               class="para-display  details text-display text-display-${Class}  text-xs "></p>
+                              <div class="date-inner-list flex gap-2 text-xs text-display text-display-${Class}"><span class="day" data-id="${id}"></span>  <span class="month" data-id="${id}"></span>  <span class="date" data-id="${id}"></span>
+                            </div>
                           </div>
                           <!-- Date container  -->
                           <!-- to set date -->
@@ -83,7 +85,17 @@ let InnerMainListTask = (Container, Class) => {
                           <div class="right-side p-1">
                             <div class=" c-pointer task-dot-contain  text-display  text-display-${Class}"
                               id="dots-${id}">
+                              <details class="main-list-dropDown relative">
+                              <summary>
+                              <div class="main-list-dot flex justify-center items-center">
                               <img src="./assets/icons/Dots.svg" alt="" class="dots-input  img-4">
+                                  </div>
+                                </summary>
+                                  <ul>
+                                     <li class="task-edit-${id} task-rename">Edit</li>
+                                     <li class="task-delete-${id} task-delete">Delete</li>
+                                  </ul>
+                              </details>
                             </div>
                           </div>
                         </div>
@@ -112,11 +124,13 @@ const addCompletedTask = (container, id) => {
                             <p class="title completed-title-${id} completed-title text-xs" data-id="${id}">
                             </p>
                             <!-- Date  container-->
-                            <div class="date-contain flex gap-2 ">
+                            <div class="date-contain Date-container flex flex-col  gap-2 ">
                               <p>Completed :</p>
-                              <p class="day day-${id}"></p>
-                              <p class="month month-${id}"></p>
-                              <p class="Date date-${id}"></p>
+                              <div class="flex items-center gap-2">
+                              <p class="day day-${id}">Tue</p>
+                              <p class="month month-${id}">Feb</p>
+                              <p class="Date date-${id}">14</p>
+                              </div>
                             </div>
                           </div>
                         </div>
@@ -150,10 +164,18 @@ const addMainList = (container, id, innerhtml, checked) => {
               <div class="contain">
                 <div class="head flex flex-col gap-5">
                   <div class="head flex items-center justify-between">
-                    <h3>${innerhtml}</h3>
-                    <span class="img-circle flex justify-center items-center">
-                      <img src="./assets/icons/Dots.svg" alt="" />
-                    </span>
+                    <h3 class="list-Title list-Title-${id}">${innerhtml}</h3>
+                    <details class="main-list-dropDown relative">
+                      <summary>
+                        <div class="main-list-dot flex justify-center items-center">
+                            <img src="./assets/icons/Dots.svg" alt="menu" />
+                        </div>
+                      </summary>
+                        <ul>
+                             <li class="mainList-rename-${id} mainList-rename">Rename</li>
+                             <li class="mainList-delete-${id} mainList-delete">Delete</li>
+                        </ul>
+                    </details>
                   </div>
                   <div class="add-task flex items-center gap-4 Add-task-btn Add-task-btn-${id} c-pointer" id="Add-task-btn-${id}">
                     <img src="./assets/icons/WhiteTick.svg" alt="" />
@@ -167,7 +189,18 @@ const addMainList = (container, id, innerhtml, checked) => {
                   <div class="empty-task flex justify-center items-center" id="empty-task-${id}">
                     <div class="content flex flex-col justify-center items-center" id="content">
                       <img src="./assets/image/NoAnyTasks.svg" alt="" class="no-task-img" />
-                      <h3 class="text-base">No starred tasks</h3>
+                      <h3 class="text-base">No Any Task Yet.</h3>
+                      <p class="text-sm">
+                        Mark important tasks with a star so you can easily find them here
+                      </p>
+                    </div>
+                  </div>
+
+                  <!-- Every Task Completed -->
+                  <div class="empty-task flex completed-task justify-center items-center" id="completed-task-${id}">
+                    <div class="content flex flex-col justify-center items-center" id="content">
+                      <img src="./assets/image/Complete.png" alt="" class="no-task-img" />
+                      <h3 class="text-base">Every Task Completed</h3>
                       <p class="text-sm">
                         Mark important tasks with a star so you can easily find them here
                       </p>
@@ -183,7 +216,7 @@ const addMainList = (container, id, innerhtml, checked) => {
                   <details class="complete-container complete-container-${id} w-full pl-4 gap-2" id="">
                     <summary class=" c-pointer w-full gap-2">
                       <img class="arrow img " src="./assets/icons/ArrowHead.svg" alt="">
-                      <span>Completed (<span id="completed-num">1</span>)</span>
+                      <span>Completed (<span id="completed-num-${id}">1</span>)</span>
                     </summary>
                    <!-- ======================================================================== -->
                     <!-- Completed list Container-->
@@ -206,6 +239,7 @@ const addMainList = (container, id, innerhtml, checked) => {
   console.log("container:", container);
 
   let addTaskBtn = document.querySelector(`.Add-task-btn-${id}`);
+
   let taskContain = document.querySelector(`.task-contain-${id}`);
   let emptyTask = document.querySelector(`#empty-task-${id}`);
 };
@@ -216,9 +250,6 @@ const addMainList = (container, id, innerhtml, checked) => {
 
 // Sidebar checklist container
 let sidebarListContain = document.querySelector("#check-lists");
-
-// Existing sidebar checkboxes
-let inputCheckBox = document.querySelectorAll(".sideCheckBox");
 
 // Main content container
 let mainContainer = document.querySelector("#main-container");
@@ -283,6 +314,11 @@ const addSideList = (container, innerhtml, id) => {
 
 // ----------------------------------------------------
 
+//To find number of list
+const overflowContainer = document.querySelector(".overflow-container");
+//Target no created Sms
+const noCreatedSms = document.querySelector("#no-created-list");
+
 // Store popup input values
 let inputText = [];
 
@@ -295,15 +331,25 @@ let createListBtn = document.querySelector("#create-list-btn");
 // Popup text input
 let popText = document.querySelector("#pop-text");
 
-// Done button
+// Done button of popPop
 let done = document.querySelector("#done");
 
 // Show popup on create list click
 createListBtn.addEventListener("click", () => {
+  //Show popPop
   popPop.style.display = "flex";
   done.style.color = "grey";
+  //Show Create popPop only
+  document.querySelector(`.create-pop-text`).style.display = "block";
+  document.querySelector(`.rename-pop-text`).style.display = "none";
+  document.querySelector(`.delete-pop-text`).style.display = "none";
+  // --------------------------------------------------------------------
+  document.querySelector(`.create-pop-btn`).style.display = "block";
+  document.querySelector(`.rename-pop-btn`).style.display = "none";
+  document.querySelector(`.delete-pop-btn`).style.display = "none";
+  //---------------------------------------------------------------------
+  document.querySelector(`.pop-input`).style.display = "block";
 });
-
 // Track popup input value
 popText.addEventListener("input", () => {
   // Enable/disable done button color
@@ -315,91 +361,215 @@ popText.addEventListener("input", () => {
 
   // Store input value
   inputText.push(popText.value);
+  document.querySelector("#error").style.display = "none";
 });
 
-// Track existing sidebar checkbox changes
-inputCheckBox.forEach((e) => {
-  e.addEventListener("change", (cd) => {
-    let checked = cd.target.checked;
-    let value = cd.target.value;
-    let labelText = cd.target.labels[0].innerText;
-    let id = cd.target.id;
-
-    console.log("clicked:", checked);
-    console.log("value:", value);
-    console.log("label:", labelText);
-
-    let mainList = document.querySelectorAll(`#${id}`)[1];
-    console.log(mainList);
-
-    // condition for main list
-    //If checked
-    if (checked) {
-      //visible
-      mainList.style.display = "block";
-      //if unchecked
-    } else if (!checked) {
-      mainList.style.display = "none";
-    }
+// ----------------------------------------------------
+const listTitle = document.querySelectorAll(".list-Title");
+window.addEventListener("load", (e) => {
+  const allListTitle = document.querySelectorAll(".list-Title");
+  let listTitle = [];
+  allListTitle.forEach((e) => {
+    console.log(`list Title : ${e.innerText}`);
+    listTitle.push(e.innerText);
   });
-});
 
-// ----------------------------------------------------
+  //To rename main listBtn
+  let renameBtn = document.querySelectorAll(".mainList-rename");
+  if (renameBtn) {
+    renameBtn.forEach((btn) => {
+      btn.addEventListener("click", (listRenameBtn) => {
+         //to close dropDown
+          let dropDown = btn.parentElement.parentElement.open = ''
+        //Show Rename popPop only
+        document.querySelector(`.create-pop-text`).style.display = "none";
+        document.querySelector(`.rename-pop-text`).style.display = "block";
+        document.querySelector(`.delete-pop-text`).style.display = "none";
+        // --------------------------------------------------------------------
+        document.querySelector(`.create-pop-btn`).style.display = "none";
+        document.querySelector(`.rename-pop-btn`).style.display = "block";
+        document.querySelector(`.delete-pop-btn`).style.display = "none";
+        //---------------------------------------------------------------------
+        document.querySelector(`.pop-input`).style.display = "block";
 
-// Handle done button click
-let lastIdx;
+        // show popup
+        popPop.style.display = "flex";
+        //main list title
+        let mainListTitle = listRenameBtn.target.parentElement.parentElement.parentElement.children[0]
+        let mainListTitleClass = listRenameBtn.target.parentElement.parentElement.parentElement.children[0].classList[1].replace("list-Title-","")
+        
+        console.log(`mainListTitle : ${mainListTitle}`);
+        console.log(`mainListTitleClass : ${mainListTitleClass}`);
+        // Hide error
+        document.querySelector("#error").style.display = "none";
+        //Target rename button
+        let renameBtn = document.querySelector(`#rename-pop`);
 
-done.addEventListener("click", () => {
-  // Get last entered value
-  lastIdx = inputText.length - 1;
-  //Set id
-  let id = inputText[lastIdx]
-    ?.replaceAll(" ", "-")
-    ?.replace(/[^a-zA-Z0-9\s-]/g, "");
-  //Get inner HTML
-  let innerhtml = inputText[lastIdx];
-  // Validate input
-  if (innerhtml) {
-    // Hide popup
-    popPop.style.display = "none";
-    // Set current main list id
-    idOfMainList = id;
+        renameBtn.addEventListener("click", (btn) => {
+          // Get last entered value
+          let lastIdx = inputText.length - 1;
+          //Set id
+          let id = inputText[lastIdx]
+            ?.replaceAll(" ", "-")
+            ?.replace(/[^a-zA-Z0-9\s-]/g, "");
 
-    // Add sidebar list item
-    addSideList(sidebarListContain, innerhtml, id);
+          //Get inner HTML
+          let innerhtml = inputText[lastIdx];
+          //Check is it same
+          //writen text and already writen text
+          let isSame = listTitle.some((e) => {
+            return e === innerhtml;
+          });
+          // Validate input
+          if (innerhtml && isSame === false) {
+            // Set current main list
+            mainListTitle.innerText = inputText[lastIdx]
+            popPop.style.display = "none";
 
-    // Add main list section
-    addMainList(mainContainer, id, innerhtml);
+          } else {
+            // Show error
+            document.querySelector("#error").style.display = "block";
+          }
+        });
+      });
+    });
   }
-  // Reset input state
-  inputText = [];
-  popText.value = "";
-});
-// ----------------------------------------------------
 
-// Cancel popPop
-let cancle = document.querySelector("#cancle");
+  let deleteBtn = document.querySelectorAll(".mainList-delete")
+  if (deleteBtn) {
+    deleteBtn.forEach((btn) => {
+      btn.addEventListener("click", (listRenameBtn) => {
+       
+        //Show Rename popPop only
+        document.querySelector(`.create-pop-text`).style.display = "none";
+        document.querySelector(`.rename-pop-text`).style.display = "none";
+        document.querySelector(`.delete-pop-text`).style.display = "block";
+        // --------------------------------------------------------------------
+        document.querySelector(`.create-pop-btn`).style.display = "none";
+        document.querySelector(`.rename-pop-btn`).style.display = "none";
+        document.querySelector(`.delete-pop-btn`).style.display = "block";
+        //---------------------------------------------------------------------
+        document.querySelector(`.pop-input`).style.display = "none";
 
-// Hide popup on cancel
-cancle.addEventListener("click", () => {
-  popPop.style.display = "none";
-});
+        // show popup
+        popPop.style.display = "flex";
+        //main list title
+        let mainListTitle = listRenameBtn.target.parentElement.parentElement.parentElement.children[0];
+        let mainListTitleContainer = listRenameBtn.target.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement;
+        let mainListTitleClass = listRenameBtn.target.parentElement.parentElement.parentElement.children[0].classList[1].replace("list-Title-","");
+        
+        console.log(`mainListTitle : ${mainListTitle}`);
+        console.log(`mainListTitleClass : ${mainListTitleClass}`);
+        console.log(`mainListTitleContainer : ${mainListTitleContainer}`);
 
-//Inner main list Tasks
-// ===================
+        //Target rename button
+        let deleteBtn = document.querySelector(`.delete-pop-btn`);
 
-// Track by reload
-window.addEventListener("load", () => {
+        deleteBtn.addEventListener("click", (btn) => {
+          // Get last entered value
+          let lastIdx = inputText.length - 1;
+          //Remove list
+          mainListTitleContainer.remove()
+          //Show popPOp
+          popPop.style.display = "none";
+        });
+      });
+    });
+  }
+
+  // Handle done button click
+  //popPop done btn
+  done.addEventListener("click", () => {
+    //Hide error
+    document.querySelector("#error").style.display = "none";
+    let lastIdx;
+    // Get last entered value
+    lastIdx = inputText.length - 1;
+    //Set id
+    let id = inputText[lastIdx]
+      ?.replaceAll(" ", "-")
+      ?.replace(/[^a-zA-Z0-9\s-]/g, "");
+
+    //Get inner HTML
+    let innerhtml = inputText[lastIdx];
+    //Check is it same
+    //writen text and already writen text
+    let isSame = listTitle.some((e) => {
+      return e === innerhtml;
+    });
+    console.log(isSame);
+
+    // Validate input
+    if (innerhtml && isSame === false) {
+      document.querySelector("#error").style.display = "none";
+      // Hide popup
+      popPop.style.display = "none";
+      // Set current main list id
+      // idOfMainList id
+
+      // Add sidebar list item
+      addSideList(sidebarListContain, innerhtml, id);
+
+      // Add main list section
+      addMainList(mainContainer, id, innerhtml);
+
+      window.location.reload(); // Reload window to listen load lisner.
+    } else {
+      console.log(`innerhtml :${innerhtml}`);
+      
+      if (innerhtml === undefined ) {
+        // Show error
+        document.querySelector("#error").style.display = "none";
+      }else{
+        document.querySelector("#error").style.display = "block";
+
+      }
+    }
+
+    // Reset input state
+    inputText = [];
+    popText.value = "";
+  });
+  // Cancel popPop
+  let cancle = document.querySelector("#cancle");
+
+  // Hide popup on cancel
+  cancle.addEventListener("click", () => {
+    popPop.style.display = "none";
+  });
+  // ----------------------------------------------------
+
+  //Inner main list Tasks
+  // ===================
+
+  //To Hide no created Sms
+  console.log(
+    `overflowContainerInnerLenth ${overflowContainer.children.length}`,
+  );
+
+  if (overflowContainer.children.length > 0) {
+    noCreatedSms.style.display = "none";
+  }
   document.querySelectorAll(".Add-task-btn").forEach((btn) => {
     btn.addEventListener("click", () => {
       console.log("Add task button clicked:", btn);
       console.log("Add task button id clicked:", btn.id);
+
       // We can add functionality here to handle adding a task
+      //To make id
+      let id = btn.id.replace("Add-task-btn-", "");
+      //Target Empty Task
+      let emptyTask = document.querySelector(`#empty-task-${id}`);
+      //Target Completed Task
+      let completedTask = emptyTask.parentElement.querySelector(
+        `#completed-task-${id}`,
+      );
+      console.log(`completed Task ${completedTask}`);
 
       //Remove empty task message when adding a task
-      let id = btn.id.replace("Add-task-btn-", "");
-      let emptyTask = document.querySelector(`#empty-task-${id}`);
       emptyTask.style.display = "none";
+      //Remove Completed task message when adding a task
+      completedTask.style.display = "none";
 
       // Select the task container for the corresponding main list
       let taskContain = document.querySelector(`.task-container-${id}`);
@@ -444,54 +614,103 @@ window.addEventListener("load", () => {
 
       // --------------------------------
       // Input Date
-      let dateInput = document.querySelectorAll(".task-date-input");
+      const today = new Date().toISOString().split("T")[0];
+
+      //For unable to select previous date:
+      document.querySelectorAll(".task-date-input").forEach((input) => {
+        input.min = today;
+      });
+
+      let selectedDate = [];
       // Array of dates
-      let dateArray = [];
-      //Track input date
-      dateInput.forEach((e) => {
-        e.addEventListener("input", (cd) => {
-          //Get value
-          let value = cd.target.value;
-          //push the value in empty Array
-          dateArray.push(value);
+      document.querySelectorAll(".task-date-input").forEach((input) => {
+        input.addEventListener("change", (e) => {
+          const value = e.target.value;
+          const Dates = new Date(value);
+          let month = Dates.toLocaleString("en-US", { month: "short" });
+          let day = Dates.toLocaleString("en-US", { weekday: "short" });
+          let date = Dates.toISOString().split("T")[0].split("-")[2];
+
+          console.log("month :", month);
+          console.log("day :", day);
+          console.log("date :", date);
+          let arr = [day, month, date];
+          selectedDate = arr;
         });
       });
+
       // --------------------------------
       // Today Button
       let todayBtn = document.querySelectorAll(".task-today-btn");
-      //Track Today button click
+      // const Today = [];
+
       todayBtn.forEach((btn) => {
-        btn.addEventListener("click", () => {
-          //Get today's date
+        btn.addEventListener("click", (e) => {
           let today = new Date().toISOString().split("T")[0];
-          //Find the corresponding date input
-          let dateInput = btn.nextElementSibling;
-          //Set date input value to today's date
-          dateInput.value = today;
+          let dateObj = new Date(today);
+          let month = dateObj.toLocaleString("en-US", { month: "short" });
+          let day = dateObj.toLocaleString("en-US", { weekday: "short" });
+          let date = today.split("-")[2];
+
+          console.log("month :", month);
+          console.log("day :", day);
+          console.log("date :", date);
+          let arr = [day, month, date];
+          selectedDate = arr;
         });
       });
+
       // --------------------------------
       // Tomorrow Button
       let tomorrowBtn = document.querySelectorAll(".task-tomorrow-btn");
+      // const Tomorrow = [];
       //Track Tomorrow button click
       tomorrowBtn.forEach((btn) => {
-        btn.addEventListener("click", () => {
-          //Get tomorrow's date
-          let tomorrow = new Date();
-          tomorrow.setDate(tomorrow.getDate() + 1);
-          let tomorrowDate = tomorrow.toISOString().split("T")[0];
-          //Find the corresponding date input
-          let dateInput = btn.nextElementSibling;
-          //Set date input value to tomorrow's date
-          dateInput.value = tomorrowDate;
+        btn.addEventListener("click", (e) => {
+          let today = new Date();
+          let tomorrow = new Date(today);
+          tomorrow.setDate(today.getDate() + 1);
+          let dateObj = new Date(tomorrow);
+
+          let month = dateObj.toLocaleString("en-US", { month: "short" });
+          let day = dateObj.toLocaleString("en-US", { weekday: "short" });
+          let date = tomorrow.toISOString().split("T")[0].split("-")[2];
+
+          console.log("month :", month);
+          console.log("day :", day);
+          console.log("date :", date);
+          let arr = [day, month, date];
+          selectedDate = arr;
         });
       });
+
       // --------------------------------
-      // Done Button
+      // Done Button in innerList Task
       let doneBtn = document.querySelectorAll(`#done-btn-${id}`);
       //Track Done button click
+      
+      
+      
+      
+
       doneBtn.forEach((btn) => {
         btn.addEventListener("click", () => {
+          console.log("Date", selectedDate);
+          //Target day date month
+          const day = btn.parentElement.parentElement.querySelector(".day");
+          const month = btn.parentElement.parentElement.querySelector(".month");
+          const date = btn.parentElement.parentElement.querySelector(".date");
+
+          if ((day.innerText = selectedDate[0]) == undefined) {
+            day.innerText = "";
+            month.innerText = "";
+            date.innerText = "";
+          } else {
+            day.innerText = selectedDate[0];
+            month.innerText = selectedDate[1];
+            date.innerText = selectedDate[2];
+          }
+
           //Get Title
           let titleInput =
             btn.parentElement.parentElement.querySelector(".task-input-text");
@@ -537,13 +756,11 @@ window.addEventListener("load", () => {
           listTaskContain.style.alignItems = "center";
 
           // Hide inputs and show displays
-          inputElements.forEach((el) => (el.style.display = "none "));
-
+          inputElements.forEach((el) => (el.style.display = "none"));
           displayElements.forEach((el) => (el.style.display = "block"));
 
           checkBoxDisplay.forEach((el) => {
             el.style.display = "block";
-            // console.log("checkBoxDisplay:", el);
           });
 
           // -----------------------------------------
@@ -558,16 +775,36 @@ window.addEventListener("load", () => {
             console.log(checked);
             if (checked) {
               //Target Current checked taskContain
-              let taskContainer =
+              let taskItem =
                 cd.target.parentElement.parentElement.parentElement
                   .parentElement;
               //taskContain display none
-              taskContainer.style.display = "none";
+              taskItem.remove();
+              let taskContainerLenght = document.querySelector(
+                `.task-container-${id}`,
+              ).children.length;
+              console.log(`taskContainer inner length ${taskContainerLenght}`);
+              if (taskContainerLenght === 0) {
+                completedTask.style.display = "flex";
+              }
 
+              // -------------------------------------------------------------------
               // Add to completed task container
               let completedListContainer = document.querySelector(
                 `.completed-list-container-${id}`,
               );
+
+              //Show number of completed Tasks
+              let numOfCompletedTask =
+                completedListContainer.children.length + 1;
+
+              //Target display
+              let displayNumTask = document.querySelector(
+                `#completed-num-${id}`,
+              );
+              //Show in display
+              displayNumTask.innerText = numOfCompletedTask;
+
               //Invoked
               //To make Completed list
               addCompletedTask(completedListContainer, id);
@@ -577,15 +814,41 @@ window.addEventListener("load", () => {
               );
               // change display
               completedContainer.style.display = "block";
+
+              //Get current date
+              const Today = new Date().toISOString().split("T")[0];
+              const dateObj = new Date(Today);
+              //Convert date into word
+              let day = dateObj.toLocaleString("en-US", { weekday: "short" });
+              let month = dateObj.toLocaleString("en-US", { month: "short" });
+              let date = today.split("-")[2];
               console.log("Input Value :", titleInput.value);
 
               //Target Completed Title
               let completedTitle = document.querySelectorAll(
                 `.completed-title[data-id="${id}"]`,
               );
+              //Target All Completed Date contain
+              let completedDateContain =
+                document.querySelectorAll(".Date-container");
+              //Target individual Completed Date contain
+              let completedDateContainer =
+                completedDateContain[completedDateContain.length - 1]
+                  .children[1].children;
+
+              //Date of completed container
+              let cDay = completedDateContainer[0];
+              let cMonth = completedDateContainer[1];
+              let cDate = completedDateContainer[2];
+
+              //Set date of completed Task
+              cDay.innerText = day;
+              cMonth.innerText = month;
+              cDate.innerText = date;
 
               //Change Completed title innerText
-              completedTitle[completedTitle.length -1].innerText = titleInput.value;
+              completedTitle[completedTitle.length - 1].innerText =
+                titleInput.value;
 
               completedTitle.innerText = titleInput.value;
               console.log("completedTitle", completedTitle);
@@ -595,192 +858,85 @@ window.addEventListener("load", () => {
               let deleteBtn = document.querySelectorAll(".delete-btn");
               deleteBtn.forEach((e) => {
                 e.addEventListener("click", (el) => {
+                  //Show in display Number Of completed Task
                   let completeList = el.target.parentElement.parentElement;
-                  console.log("completeList :", completeList);
-                  completeList.style.display = "none";
+                  completeList.remove();
+                  displayNumTask.innerText =
+                    completedListContainer.children.length;
+                  if (completedListContainer.children.length === 0) {
+                    //To Hide container
+                    completedContainer.style.display = "none";
+                    //To Hide Completed Task img
+                    completedTask.style.display = "none";
+                    //To Show Empty Task img
+                    emptyTask.style.display = "flex";
+                  }
                 });
               });
 
               //========================================
             }
           });
+          //Now let's set in localStorage 
+          //============================
+          //To select main list
+          // const mainList = btn.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement;
+          // const mainListHtml = mainList.outerHTML
+          // const mainListId = mainList.id
+          // console.log("mainListid", mainList.outerHTML);
+          // localStorage.setItem(`mainList-${mainListId}`,)
         });
       });
+
+
+      let editBtn = document.querySelectorAll(`.task-edit-${id}`)
+
+      editBtn.forEach((btn) => {
+        btn.addEventListener("click",(e) => {
+          console.log(`editBtn ${e}`);
+          //to close dropDown
+          let dropDown = btn.parentElement.parentElement.open = ''
+          console.log(` dropDown ${dropDown}`);
+          
+          let inputElements =
+            btn.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.querySelectorAll(".inputs-display");
+          let displayElements =
+            btn.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.querySelectorAll(".text-display");
+            console.log(`inputElement ${inputElements}`);
+            
+
+
+          //To Change the grid display of list task contain
+          let listTaskContain = btn.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement;
+            
+          console.log(`checkBoxDisplay ${checkBoxDisplay}`);
+          // Displays inputs and show inputs
+          inputElements.forEach((el) => (el.style.display = "block"));
+          displayElements.forEach((el) =>el.style.display = "none");
+          // //To Hide container
+          listTaskContain.style.display = "block";
+        })
+      })
+      
+      let deleteBtn = document.querySelectorAll(`.task-delete-${id}`)
+
+      deleteBtn.forEach((btn) => {
+        btn.addEventListener("click",(e) => {
+          console.log(`deleteBtn ${e.target.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.remove()}`);
+        })
+      })
+      
+
     });
+
 
     //--------------------------------------------
   });
 });
-// ------------------------------------------------
-//Track without reload
-// document.querySelectorAll(".Add-task-btn").forEach((btn) => {
-//   btn.addEventListener("click", () => {
-//     console.log("Add task button clicked:", btn);
-//     console.log("Add task button id clicked:", btn.id);
-//     // We can add functionality here to handle adding a task
 
-//     //Remove empty task message when adding a task
-//     let id = btn.id.replace("Add-task-btn-", "");
-//     let emptyTask = document.querySelector(`#empty-task-${id}`);
-//     emptyTask.style.display = "none";
-
-//     // Select the task container for the corresponding main list
-//     let taskContain = document.querySelector(`.task-container-${id}`);
-//     // Call function to add inner main list task
-//     InnerMainListTask(taskContain, id); // Add task to the specific main list
-
-//     console.log("taskContain :", taskContain);
-
-//     // Input Title
-//     let titleInput = document.querySelectorAll(".task-input-text");
-
-//     // Array of title
-//     let titleArray = [];
-//     //Track input title
-//     titleInput.forEach((e) => {
-//       e.addEventListener("input", (cd) => {
-//         //Get value
-//         let value = cd.target.value;
-//         //push the value in empty Array
-//         titleArray.push(value);
-//         console.log(`title value ${value}`);
-//       });
-//     });
-
-//     // --------------------------------
-//     // Input Details
-//     let detailInput = document.querySelectorAll(".task-textArea");
-
-//     // Array of details
-//     let detailArray = [];
-//     //Track input details
-//     detailInput.forEach((e) => {
-//       e.addEventListener("input", (cd) => {
-//         //Get value
-//         let value = cd.target.value;
-//         //push the value in empty Array
-//         detailArray.push(value);
-//       });
-//     });
-
-//     // --------------------------------
-//     // Input Date
-//     let dateInput = document.querySelectorAll(".task-date-input");
-//     // Array of dates
-//     let dateArray = [];
-//     //Track input date
-//     dateInput.forEach((e) => {
-//       e.addEventListener("input", (cd) => {
-//         //Get value
-//         let value = cd.target.value;
-//         //push the value in empty Array
-//         dateArray.push(value);
-//       });
-//     });
-//     // --------------------------------
-//     // Today Button
-//     let todayBtn = document.querySelectorAll(".task-today-btn");
-//     //Track Today button click
-//     todayBtn.forEach((btn) => {
-//       btn.addEventListener("click", () => {
-//         //Get today's date
-//         let today = new Date().toISOString().split("T")[0];
-//         //Find the corresponding date input
-//         let dateInput = btn.nextElementSibling;
-//         //Set date input value to today's date
-//         dateInput.value = today;
-//       });
-//     });
-//     // --------------------------------
-//     // Tomorrow Button
-//     let tomorrowBtn = document.querySelectorAll(".task-tomorrow-btn");
-//     //Track Tomorrow button click
-//     tomorrowBtn.forEach((btn) => {
-//       btn.addEventListener("click", () => {
-//         //Get tomorrow's date
-//         let tomorrow = new Date();
-//         tomorrow.setDate(tomorrow.getDate() + 1);
-//         let tomorrowDate = tomorrow.toISOString().split("T")[0];
-//         //Find the corresponding date input
-//         let dateInput = btn.nextElementSibling;
-//         //Set date input value to tomorrow's date
-//         dateInput.value = tomorrowDate;
-//       });
-//     });
-//     // --------------------------------
-//     // Done Button
-//     let doneBtn = document.querySelectorAll(`#done-btn-${id}`);
-//     //Track Done button click
-//     doneBtn.forEach((btn) => {
-//       btn.addEventListener("click", () => {
-//         //Get Title
-//         let titleInput =
-//           btn.parentElement.parentElement.querySelector(".task-input-text");
-
-//         console.log(`titleInput :${titleInput}`);
-
-//         //Get Details
-//         let detailInput =
-//           btn.parentElement.parentElement.querySelector(".task-textArea");
-
-//         let checkBox =
-//           btn.parentElement.parentElement.querySelector(".task-check");
-
-//         //Get Title display
-//         let titleDisplay =
-//           btn.parentElement.parentElement.querySelector(".task-text");
-//         //Get Details display
-//         let detailDisplay =
-//           btn.parentElement.parentElement.querySelector(".details");
-
-//         //Set Title display and hide input
-//         titleDisplay.innerText = titleInput.value;
-//         //Set Details display and hide input
-//         detailDisplay.innerText = detailInput.value;
-
-//         //Change display states
-//         //inputs display
-//         let inputElements = btn.parentElement.parentElement.querySelectorAll(".inputs-display");
-//         //Elements display
-//         let displayElements = btn.parentElement.parentElement.querySelectorAll(
-//           ".text-display");
-//         //Checkbox display
-//         let checkBoxDisplay = btn.parentElement.parentElement.parentElement.querySelectorAll(
-//           ".text-display");
-//         //To Change the grid display of list task contain
-//         let listTaskContain = btn.parentElement.parentElement.parentElement;
-//         console.log("listTaskContain:", listTaskContain);
-//         //Set grid display for list task contain
-//         listTaskContain.style.display = "grid";
-//         //Set grid template columns
-//         listTaskContain.style.gridTemplateColumns = "auto 1fr auto";
-//         //Align items to center
-//         listTaskContain.style.alignItems = "center";
-
-//         // Hide inputs and show displays
-//         inputElements.forEach((el) => (el.style.display = "none "));
-
-//         displayElements.forEach((el) => (el.style.display = "block"));
-
-//         checkBoxDisplay.forEach((el) => {
-//           (el.style.display = "block")
-//           console.log("checkBoxDisplay:", el);
-//         });
-
-//       });
-//     });
-//     // -----------------------------------------
-//     let checkBoxCompleteTask = document.querySelectorAll( `check-complete-${id}` )
-//     checkBoxCompleteTask.forEach((cb) => {
-//       console.log(cb.target.value);
-
-//     })
-//   });
-//   //--------------------------------------------
-// });
-// ===================================
-// Load lists from local storage
-// ===================================
+//======================================================
+//Load From LocalStorage
+//======================================================
 
 window.addEventListener("DOMContentLoaded", () => {
   for (let key in localStorage) {
@@ -801,7 +957,6 @@ window.addEventListener("DOMContentLoaded", () => {
   document.querySelectorAll(".sideCheckBox").forEach((checkbox) => {
     checkbox.addEventListener("change", (e) => {
       let id = e.target.id;
-
       // second element with same id = main list
       let mainList = document.querySelectorAll(`#${id}`)[1];
       if (!mainList) return;

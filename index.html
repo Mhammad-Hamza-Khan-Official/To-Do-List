@@ -13,11 +13,18 @@
   <!-- Show popPop -->
   <div class="pop-container absolute flex justify-center items-center">
     <div class="pop-pop flex flex-col gap-5">
-      <h3 class="text-xl">Create new list</h3>
-      <input type="text" name="" id="pop-text" class="btn text-lg" placeholder="Enter a name">
+      <h3 class="text-xl create-pop-text" id="create-new">Create new list</h3>
+      <h3 class="text-xl rename-pop-text" id="rename-list">Rename list</h3>
+      <h3 class="text-xl delete-pop-text" id="delete-list">Are you sure</h3>
+      <div>
+        <input type="text" name="" id="pop-text" class="btn text-lg pop-input" placeholder="Enter a name">
+        <p class="error" id="error">This name is All ready taken.</p>
+      </div>
       <div class="pop-btn flex gap-4">
         <button class="pop-btn text-base" id="cancle">Cancle</button>
-        <button id="done" class="pop-btn text-base">Done</button>
+        <button id="done" class="pop-btn text-base create-pop-btn">Done</button>
+        <button id="rename-pop" class="rename-btn text-base rename-pop-btn">Rename</button>
+        <button id="delete-pop" class="delete-btn c-red text-base delete-pop-btn">Delete</button>
       </div>
     </div>
   </div>
@@ -36,7 +43,20 @@
     </nav>
   </header>
   <!-- ------------------------------------- -->
-  <main>
+  <main class="flex justify-center items-center">
+    <!-- No Created list Img-->
+    <div id="no-created-list" class="message absolute">
+      <img src="./assets/image/NoAnyTasks.svg" alt="">
+      <h1>No Any Created List</h1>
+      <p>Nothing here yet 👀 <br>
+        Create a list to get started</p>
+    </div>
+    <!-- Not open any list -->
+    <div id="no-open-list" class="message absolute">
+      <img src="./assets/image/NoAnyTasks.svg" alt="">
+      <h1>No Any Opened List</h1>
+      <p>Select a list to view its items</p>
+    </div>
 
     <!-- ----------------------------------  -->
     <div class="container  flex  ">
@@ -70,11 +90,11 @@
             </div>
             <!-- ---------------------------Check list in side bar--------------  -->
             <div id="check-lists" class="check-lists flex flex-col gap-3">
-              <div class="flex items-center gap-2 sidebar-btn-w">
+              <!-- <div class="flex items-center gap-2 sidebar-btn-w">
 
                 <input type="checkbox" name="" id="My-Task" class="sideCheckBox" value="mytask" checked>
                 <label for="My-Task" class="text-sm ">My Task</label>
-              </div>
+              </div> -->
 
             </div>
 
@@ -88,158 +108,8 @@
       <!-- ------------------------------------------------------------------------ -->
       <div class="overflow-container   gap-3" id="main-container">
         <!-- ----------------------------------------------- -->
-        <div class="task-content-container" id="My-Task">
-          <!-- --------------------main-content -->
-          <div class="main-contain  h-full  flex  justify-center  ">
-            <div class="contain-content  ">
-              <div class="contain  ">
-                <div class="head flex flex-col gap-5">
-                  <div class="head flex items-center justify-between ">
-                    <h3>My Task</h3>
-                    <span class="img-circle flex justify-center items-center">
 
-                      <img src="./assets/icons/Dots.svg" alt="" class="" />
-                    </span>
-                  </div>
-                  <div class="add-task flex items-center gap-4 Add-task-btn">
-                    <img src="./assets/icons/WhiteTick.svg" alt="" />
-                    <p>Add a task</p>
-                  </div>
-                </div>
-                <!-- List content -->
-                <div class="List-content flex flex-col justify-center items-center h-full  mt-5 gap-3">
-                  <!-- -------------------No tasks yet -->
-                  <!-- <div class="empty-task flex
-                      justify-center items-center" id="empty-task">
-                    <div class="content flex flex-col justify-center items-center" id="content">
-                      <img src="./assets/image/NoAnyTasks.svg" alt="" class="no-task-img" id="no-task-img" />
-                      <h3 id="no-task-heading" class="text-base">No starred tasks</h3>
-                      <p id="no-task-paragraph" class="text-sm">
-                        Mark important tasks with a star so you can easily find them here
-                      </p>
-                    </div>
-                  </div> -->
-
-                  <div
-                    class="task-container task-container-${id} w-full flex items-center  task-contain flex-col gap-2">
-                    <!-- ======================= -->
-                    <!-- Items  -->
-                    <div class="list-task-contain task-contain-${Class} ">
-                      <!-- .left side  -->
-                      <div class="left-checkbox flex items-center justify-center p-1 text-display">
-
-                        <div class="inputs  items-center gap-4  ">
-                          <!-- Checkbox to find task is complete  -->
-                          <div class="check-box  ">
-
-                            <input type="checkbox" name="" id="check-complete-${id}" value="complete"
-                              class=" circle-check task-check  text-display-${Class}">
-                          </div>
-                        </div>
-
-                      </div>
-
-                      <!-- ---------------------------  -->
-                      <div class="middle flex flex-col gap-1 p-1">
-                        <div>
-                          <!-- Get title input and title display -->
-                          <!-- input -->
-                          <input type="text" name="" id="input-title-${id}" placeholder="Title"
-                            class="title w-full inputs-display inputs-display-${Class} ls-1 p-1 pl-1 pr-1 re-border re-outline bg-input task-input-text">
-                          <!-- display -->
-                          <h1 id="display-title-${id}"
-                            class="title text-sm task-text title text-display text-display-${Class}">HTML</h1>
-                        </div>
-
-                        <!-- Text area for details  -->
-                        <div class="details-contain">
-                          <!-- input -->
-                          <textarea name="" rows="3" placeholder="Details" id="input-detail-${id}"
-                            class="  inputs-display inputs-display-${Class} bg-input re-border re-outline p-1 pl-1 pr-1 ls-1 task-textArea w-full"></textarea>
-                          <!-- display -->
-                          <p id="display-detail-${id}"
-                            class="para-display  details text-display text-display-${Class}  text-xs ">This is
-                            details Lorem ipsum dolor sit amet consectetur adipisicing elit. Ea ex rerum doloribus
-                            temporibus nesciunt dolor quod qui corporis in. Sapiente autem illo commodi accusamus,
-                            labore praesentium tempora placeat harum nulla. Lorem ipsum dolor sit amet consectetur
-                            adipisicing elit. Voluptatum eos consequatur rerum libero alias sint accusantium,
-                            reprehenderit nulla laudantium repellat magni molestias voluptatem, iusto eum, adipisci
-                            cumque. Quis, perspiciatis dolore.; Lorem ipsum, dolor sit amet consectetur adipisicing
-                            elit. In cum esse repellendus nam. Iste tempora ullam commodi amet natus laborum, sit quam
-                            dignissimos incidunt rem quasi temporibus atque, harum iure.</p>
-                        </div>
-                        <!-- Date container  -->
-                        <!-- to set date -->
-                        <div class="date  inputs-display inputs-display-${Class} task-date-contain">
-                          <button class="task-today-btn" id="today-btn-${id}">Today</button>
-                          <button class="task-tomorrow-btn " id="tomorrow-btn-${id}">Tomorrow</button>
-                          <input type="date" class="task-date-input  name="" id=" input-date-${id}"">
-                          <button class="btn-done task-done-btn " id="done-btn-${id}">Done</button>
-                        </div>
-                      </div>
-
-                      <div class="rignt">
-                        <!-- Right side img dots -->
-                        <div class="right-side p-1">
-                          <div class=" c-pointer task-dot-contain  text-display  text-display-${Class}" id="dots-${id}">
-                            <img src="./assets/icons/Dots.svg" alt="" class="dots-input  img-4">
-                          </div>
-                        </div>
-                      </div>
-
-                    </div>
-                    <!-- ---------------------------  -->
-                  </div>
-                  <!-- ======================= -->
-                  <!-- completed -->
-                  <details class="complete-container w-full pl-4 gap-2" id="">
-
-                    <summary class=" c-pointer w-full gap-2">
-                      <img class="arrow img " src="./assets/icons/ArrowHead.svg" alt="">
-                      <span>Completed (<span id="completed-num">1</span>)</span>
-                    </summary>
-                    <!-- ======================================================================== -->
-                    <!-- Completed list Container-->
-                    <div class="completed-list-container flex flex-col gap-1 w-full justify-center items-center">
-                      <!-- List items -->
-                      <div class="list-container  flex gap-3 relative  flex justify-between mt-2">
-                        <!-- container  -->
-                        <div class="container flex items-center gap-3 pl-4">
-                          <!-- tick img  -->
-                          <div class="img">
-                            <img src="./assets/icons/successTick.svg" alt="">
-                          </div>
-                          <!-- text  -->
-                          <div class="text gap-1 flex flex-col ">
-                            <!-- title  -->
-                            <p class="title text-xs">
-                              Programming
-                            </p>
-                            <!-- Date  container-->
-                            <div class="date-contain flex gap-2 ">
-                              <p>Completed :</p>
-                              <p class="day">Mon</p>
-                              <p class="month">Jan</p>
-                              <p class="Date">26</p>
-                            </div>
-                          </div>
-                        </div>
-                        <!-- Right img bin  -->
-                        <div class="right-img  pr-4">
-                          <img src="assets/icons/Bin.svg" alt="Bin">
-                        </div>
-                      </div>
-                      <!-- =============================================== -->
-                    </div>  
-                  </details>
-                  <!-- ---------------------------------------------------------- -->
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- -----------------------------  -->
-        </div>
+        <!-- ======================================================== -->
       </div>
   </main>
   <script src="script.js"></script>

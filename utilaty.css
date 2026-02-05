@@ -279,7 +279,7 @@ input[type="checkbox"]{
 
 /* ==================================== */
 .sidebar-btn-w{
-    width: 255.9px;
+    width: 196.9px;
 }
 
 /* ----------------------------------------- */
@@ -316,6 +316,10 @@ input[type="checkbox"]{
 /* Optional hover effect */
 .circle-check:hover {
   border-color: #555;
+}
+
+.c-red{
+    color: red !important;
 }
 
 /* ---------- Square Image Utilities ---------- */

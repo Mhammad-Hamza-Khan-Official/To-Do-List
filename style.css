@@ -36,13 +36,16 @@ header .contain > img {
 /* ------------------------------------------------- */
 .sidebar-container {
   width: 0;
-  overflow-x: hidden;
+  overflow: hidden;
   background-color: var(--bg-color);
-  height: 100%;
+  /* height: 100%; */
   transition: 0.5s all;
   transition-timing-function: cubic-bezier(0.53, -0.09, 0.58, 1);
   height: 92vh;
-  background: #000;
+  border-right: 1px solid rgb(48, 48, 48);
+  position: absolute;
+  left: 0;
+  z-index: 100;
 }
 
 .sidebar button {
@@ -73,13 +76,13 @@ header .contain > img {
   background-color: rgba(137, 43, 226, 0);
 }
 
-
 @media (max-width: 1024px) {
   .sidebar-container {
     position: absolute !important;
+    background-color: #1b1c1d;
+    z-index: 10000;
+    left: 0;
   }
-
-
 
   main > .container {
     flex-direction: column;
@@ -90,22 +93,60 @@ header .contain > img {
     width: 100% !important;
   }
 }
+
+.message {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  top: 150px;
+}
+
+/* #no-created-list{
+    display: none;
+  } */
+
+#no-open-list {
+  display: none;
+}
+
+.message > img {
+  height: 164px;
+  width: auto;
+  border-radius: 8px;
+}
+.message > p {
+  color: rgb(157, 153, 153);
+  font-size: 15px;
+  letter-spacing: 2px;
+}
+.message > h1 {
+  font-size: 25px;
+  letter-spacing: 2px;
+}
 /* ------------------main */
 
 .task-content-container {
-    flex: 1 1 100px;
-    min-width: 20vw;
-    max-width: 39vw; /* never bigger than 100px */
+  flex: 1 1 100px;
+  min-width: 20vw;
+  max-width: 39vw; /* never bigger than 100px */
+  position: relative;
+  z-index: 2;
   /* background: red; */
 }
 
 .overflow-container {
-  width: 100%;
-  /* background-color: blue; */
+  min-width: 28vw;
+  max-width: 100vw;
   display: flex;
   overflow-x: auto;
+  align-items: center;
   scrollbar-width: none;
   scroll-behavior: smooth;
+}
+
+main {
+  position: relative;
 }
 
 main > .container {
@@ -130,6 +171,57 @@ main > .container {
   padding: 26px 26px;
   border-radius: 30px;
 }
+
+/* //---------------------------------------------------------------- */
+
+.main-list-dropDown > details {
+  position: relative;
+}
+
+.main-list-dropDown > summary {
+  list-style: none;
+  cursor: pointer;
+}
+
+/* hide default arrow */
+.main-list-dropDown summary::-webkit-details-marker {
+  display: none;
+}
+
+.main-list-dropDown > ul {
+  position: absolute;
+  top: 100%;
+  right: 13px;
+  display: flex;
+  flex-direction: column;
+  background-color: #000;
+  border-radius: 5px;
+  font-size: 13px;
+  letter-spacing: 1px;
+  margin-top: 5px;
+  min-width: 80px;
+  border: 1px solid #786565;
+}
+
+.main-list-dropDown > ul > li {
+  padding: 9px 12px;
+  cursor: pointer;
+  background-color: #272727;
+  position: relative;
+  z-index: 10;
+  /* left: -70px; */
+  border-radius: 5px;
+}
+
+.main-list-dropDown > ul > li:hover {
+  background: #1c1c1c;
+}
+
+.main-list-dropDown > ul > li:active {
+  background: rgb(68, 68, 68);
+}
+
+/* ------------------------------------------------------------- */
 
 img[src="./assets/Dots.svg"] {
   width: 15px;
@@ -162,10 +254,14 @@ img[src="./assets/Dots.svg"] {
 
 .no-task-img {
   height: 100px;
-  width: auto;
+  width: 143px;
   object-fit: cover;
   border-radius: 30px;
   margin-bottom: 20px;
+}
+
+.completed-task {
+  display: none;
 }
 
 /* ------------------------------------------------ */
@@ -175,7 +271,14 @@ img[src="./assets/Dots.svg"] {
   height: 100%;
   background-color: #000000e0;
   display: none;
-  z-index: 50;
+  z-index: 90000;
+}
+
+.pop-container .error {
+  padding: 3px;
+  color: red;
+  font-size: small;
+  display: none;
 }
 
 .pop-pop {
@@ -200,6 +303,17 @@ img[src="./assets/Dots.svg"] {
   color: rgb(58, 127, 238);
 }
 
+.rename-btn{
+    background: none;
+  color: rgb(0, 92, 240);
+  font-weight: 200;
+}
+
+.delete-btn{
+  background: none;
+  font-weight: 200;
+}
+
 /* ---------------------------------------------- */
 
 .list-task-contain {
@@ -216,7 +330,7 @@ img[src="./assets/Dots.svg"] {
   vertical-align: middle;
 }
 
-input[type="text"]:focus{
+input[type="text"]:focus {
   outline: none;
   background-color: #323335;
 }
@@ -233,35 +347,32 @@ input[type="text"] {
   border: none;
 }
 
-.detail-input:focus{
+.detail-input:focus {
   outline: none;
   background-color: #323335;
   overflow: hidden;
-} 
+}
 
 .detail-input:-webkit-autofill {
   -webkit-box-shadow: 0 0 0 1000px #323335 inset !important;
   -webkit-text-fill-color: #fff !important;
 }
 
-
 .task-container {
   border-radius: 20px;
 }
 
-.details-contain{
+.details-contain {
   width: 100%;
 }
 
 .para-display {
-    width: 100%;
-    overflow: hidden;
-    min-height: 16px;
-    max-height: 47px;
-    line-height: 15px;
+  width: 100%;
+  overflow: hidden;
+  min-height: 0;
+  max-height: 47px;
+  line-height: 15px;
 }
-
-
 
 .dots-input {
   display: inline-block;
@@ -279,6 +390,11 @@ input[type="text"] {
   height: 16px;
   text-align: center;
   padding-top: 1px;
+  cursor: pointer;
+}
+
+.date > input[type="date"]:focus {
+  filter: invert(1);
 }
 
 .date button {
@@ -288,6 +404,12 @@ input[type="text"] {
   padding: 4px 6px;
   border-radius: 14px;
   font-size: 10px;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+
+.date button:active {
+  background: #545353;
 }
 
 .date > .btn-done:hover {
@@ -303,9 +425,15 @@ input[type="text"] {
   width: 96%;
 }
 
+.date-inner-list span {
+  color: rgb(172, 161, 161);
+}
+
 .inputs-display {
   /* display: none; */
-  display: block;
+  display: flex;
+  align-items: center;
+  gap: 9px;
 }
 
 .text-display {
@@ -314,12 +442,10 @@ input[type="text"] {
 }
 
 /* completed---------------------- */
-.complete-container{
+.complete-container {
   display: none;
   margin-top: 10px;
 }
-
-
 
 .date-contain p {
   font-size: 10px;
@@ -371,22 +497,21 @@ summary::-webkit-details-marker {
   max-height: 0;
   opacity: 0;
   transform: translateY(-5px);
-  transition: 
+  transition:
     max-height 0.3s ease,
     opacity 0.3s ease,
     transform 0.3s ease;
 }
 
-
 /* When details is open */
 details[open] .completed-list-container {
-  max-height: 100%; 
+  max-height: 100%;
   opacity: 1;
   transform: translateY(0);
 }
 
 details[open] .arrow {
-  max-height: 100%; 
+  max-height: 100%;
   opacity: 1;
   transform: translateY(0);
   transform: rotate(180deg);
@@ -398,7 +523,5 @@ details[open] .arrow {
   height: 12px;
   transform: rotate(90deg);
 }
-
-
 
 /* ---------------------------------------------- */
